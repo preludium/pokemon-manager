@@ -1,0 +1,8 @@
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: pokemon-manager
+      POSTGRES_PASSWORD: pokemon
+    ports:
+      - 5432:5432
