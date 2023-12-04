@@ -2,6 +2,10 @@
     "name": "pokemon-manager",
     "version": "0.1.0",
     "private": true,
+    "author": {
+        "name": "preludium",
+        "url": "https://github.com/preludium"
+    },
     "scripts": {
         "dev": "next dev",
         "build": "next build",
@@ -26,5 +30,9 @@
         "prisma": "^5.6.0",
         "ts-node": "^10.9.1",
         "typescript": "^5"
+    },
+    "repository": {
+        "url": "https://github.com/preludium/pokemon-manager.git",
+        "type": "git"
     }
 }
