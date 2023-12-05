@@ -1,4 +1,6 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {}
+const nextConfig = {
+    serverComponentsExternalPackages: [ "@prisma/client", "bcryptjs" ]
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;

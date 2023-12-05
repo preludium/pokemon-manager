@@ -1,7 +1,10 @@
+import { ExternalWrapper } from '#/components/external-wrapper';
+import { LoginForm } from './form';
+  
 export default function Login() {
     return (
-        <div>
-            Login
-        </div>
+        <ExternalWrapper title='Login'>
+            <LoginForm />
+        </ExternalWrapper>
     );
 }

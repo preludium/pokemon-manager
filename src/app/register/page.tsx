@@ -1,7 +1,10 @@
+import { ExternalWrapper } from '#/components/external-wrapper';
+import { RegisterForm } from './form';
+  
 export default function Register() {
     return (
-        <div>
-            Register
-        </div>
+        <ExternalWrapper title='Register'>
+            <RegisterForm />
+        </ExternalWrapper>
     );
 }

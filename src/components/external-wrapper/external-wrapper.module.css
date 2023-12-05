@@ -1,0 +1,79 @@
+.root {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+}
+
+.paper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 400px;
+    padding: 40px;
+    background: rgba(0,0,0,.5);
+    box-sizing: border-box;
+    box-shadow: 0 15px 25px rgba(0,0,0,.6);
+    border-radius: 10px;
+}
+
+.paper h2 {
+    padding: 0 0 30px;
+    color: #ffffff;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+}
+
+.form label {
+    color: #ffffff;
+}
+
+.form input {
+    width: 100%;
+    background:#F6F7F9;
+    border: none;
+    border-radius: 4px;
+    height: 40px;
+    line-height: 40px;
+    padding: 0px 10px;
+    color: rgba(0,0,0,.6);
+    outline: none;
+}
+
+.form button {
+    display: inline-block;
+    padding: 10px 20px;
+    color: #03e9f4;
+    border: 1px solid #03e9f4;
+    font-size: 16px;
+    text-decoration: none;
+    text-transform: uppercase;
+    overflow: hidden;
+    transition: background-color .5s;
+    margin-top: 40px;
+    letter-spacing: 4px;
+    background: transparent;
+}
+
+.form button:hover {
+    background: #03e9f4;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+.form a {
+    color: #03e9f4;
+    text-align: center;
+    transition: color .5s;
+}
+
+.form a:hover {
+    color: #ffffff;
+}
