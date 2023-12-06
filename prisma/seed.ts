@@ -6,11 +6,11 @@ import pokemons from './pokemons.json';
 const prisma = new PrismaClient();
 
 function upsertPokemon(pokemon: Pokemon) {
+    if (!pokemon.image) return Promise.resolve();
     return prisma.pokemon.upsert({
-        where: { id: pokemon.id },
+        where: { name: pokemon.name },
         update: {},
         create: {
-            id: pokemon.id,
             name: pokemon.name,
             height: pokemon.height,
             weight: pokemon.weight,
