@@ -14,7 +14,6 @@ CREATE TABLE "Pokemon" (
     "height" INTEGER NOT NULL,
     "weight" INTEGER NOT NULL,
     "image" TEXT NOT NULL,
-    "order" INTEGER NOT NULL,
 
     CONSTRAINT "Pokemon_pkey" PRIMARY KEY ("id")
 );

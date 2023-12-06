@@ -12,7 +12,6 @@ function upsertPokemon(pokemon: Pokemon) {
         create: {
             id: pokemon.id,
             name: pokemon.name,
-            order: pokemon.order,
             height: pokemon.height,
             weight: pokemon.weight,
             image: pokemon.image,

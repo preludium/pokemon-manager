@@ -22,5 +22,4 @@ model Pokemon {
     height  Int
     weight  Int
     image   String
-    order   Int
 }
