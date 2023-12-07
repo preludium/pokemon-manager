@@ -7,8 +7,7 @@ import { Props } from '#/types';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-    title: 'Pokemon Manager',
-    description: '',
+    title: 'Pokemon Manager'
 };
 
 export default function RootLayout({ children }: Props) {

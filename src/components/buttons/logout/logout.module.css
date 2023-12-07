@@ -1,0 +1,15 @@
+.logout-button {
+    width: 40px;
+    border: none;
+    background-color: transparent;
+    color: #ffffff;
+}
+
+.logout-button:hover {
+    filter: brightness(80%);
+    cursor: pointer;
+}
+
+.logout-button svg {
+    height: 100%;
+}

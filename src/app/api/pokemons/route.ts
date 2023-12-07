@@ -2,12 +2,13 @@ import { prisma } from "#/lib/prisma";
 import { Pokemon } from '@prisma/client';
 import { NextRequest, NextResponse } from 'next/server';
 import z from 'zod';
-import { emptyStringTransform, handleErrorResponse, numberZodPreprocessor } from '#/app/api/common';
+import { handleErrorResponse, numberZodPreprocessor } from '#/app/api/common';
 import { NextApiRequest } from 'next';
+import { Param } from '#/types';
 
 const pageQuerySchema = z.object({
-    page: numberZodPreprocessor('Page must be a number').optional().nullable(),
-    size: numberZodPreprocessor('Size must be a number').optional().nullable().pipe(
+    [Param.PAGE]: numberZodPreprocessor('Page must be a number').optional().nullable(),
+    [Param.SIZE]: numberZodPreprocessor('Size must be a number').optional().nullable().pipe(
         z.union([
             z.literal(10),
             z.literal(20),
@@ -17,20 +18,21 @@ const pageQuerySchema = z.object({
         })
             .optional().nullable()
     ),
-    sortBy: z.union([
+    [Param.SORT_BY]: z.union([
+        z.literal('id'),
         z.literal('name'),
         z.literal('height'),
         z.literal('weight'),
     ], {
-        errorMap: () => ({ message: 'SortBy values allowed: name, height, weight' })
+        errorMap: () => ({ message: 'SortBy values allowed: id, name, height, weight' })
     }).optional().nullable(),
-    sortDirection: z.union([
+    [Param.SORT_DIRECTION]: z.union([
         z.literal('asc'),
         z.literal('desc'),
     ], {
         errorMap: () => ({ message: 'SortDirection values allowed: asc, desc' })
     }).optional().nullable(),
-    filter: z.string().optional().nullable(),
+    [Param.QUERY]: z.string().optional().nullable(),
 });
 
 export const pokemonCreateSchema = z.object({
@@ -42,32 +44,39 @@ export const pokemonCreateSchema = z.object({
 
 type PokemonCreateRequest = z.infer<typeof pokemonCreateSchema>;
 
-function extractQuery(params: URLSearchParams) {
-    const page = params.get('page');
-    const size = params.get('size');
-    const sortBy = params.get('sortBy');
-    const sortDirection = params.get('sortDirection');
-    const filter = params.get('filter');
-    const query = {
-        page, size, sortBy, sortDirection, filter,
+function extractQuery(searchParams: URLSearchParams) {
+    const page = searchParams.get(Param.PAGE);
+    const size = searchParams.get(Param.SIZE);
+    const sortBy = searchParams.get(Param.SORT_BY);
+    const sortDirection = searchParams.get(Param.SORT_DIRECTION);
+    const query = searchParams.get(Param.QUERY);
+    const params = {
+        page, size, sortBy, sortDirection, query,
     };
 
-    return pageQuerySchema.parse(query);
+    return pageQuerySchema.parse(params);
+}
+
+export interface PokemonsPage extends z.infer<typeof pageQuerySchema> {
+    totalPages: number;
+    data: Pokemon[];
 }
 
 export async function GET(
     request: NextRequest,
 ) {
     try {
-        const query = extractQuery(request.nextUrl.searchParams);
-        const skip = query.page ? query.page * (query.size ?? 10) : 0;
-        const take = query.size ?? 10;
-        const sortBy = query.sortBy ?? 'id';
-        const sortDirection = query.sortDirection ?? 'asc';
-        const isNumberFilter = !Number.isNaN(Number(query.filter));
+        const searchParams = extractQuery(request.nextUrl.searchParams);
+        const skip = searchParams.page && searchParams.page > 1
+            ? (searchParams.page - 1) * (searchParams.size ?? 10)
+            : 0;
+        const take = searchParams.size ?? 10;
+        const sortBy = searchParams.sortBy ?? 'id';
+        const sortDirection = searchParams.sortDirection ?? 'asc';
+        const isNumberFilter = !Number.isNaN(Number(searchParams.query));
         const filters = [{
             name: {
-                contains: query.filter ?? ''
+                contains: searchParams.query ?? ''
             }
         }];
 
@@ -75,13 +84,13 @@ export async function GET(
             filters.push({
                 // @ts-ignore
                 height: {
-                    equals: Number(query.filter)
+                    equals: Number(searchParams.query)
                 }
             });
             filters.push({
                 // @ts-ignore
                 weight: {
-                    equals: Number(query.filter)
+                    equals: Number(searchParams.query)
                 }
             });
         }
@@ -104,7 +113,7 @@ export async function GET(
             }),
         ]);
         return NextResponse.json({
-            page: query.page ?? 1,
+            page: searchParams.page ?? 1,
             totalPages: Math.ceil(count / take),
             size: take,
             sortBy,

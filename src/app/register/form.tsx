@@ -60,7 +60,6 @@ export const RegisterForm = () => {
                     name="email"
                     value={formValues.email}
                     onChange={handleChange}
-                    placeholder="Email address"
                 />
             </div>
             <div>
@@ -72,7 +71,6 @@ export const RegisterForm = () => {
                     name="password"
                     value={formValues.password}
                     onChange={handleChange}
-                    placeholder="Password"
                 />
             </div>
             <button

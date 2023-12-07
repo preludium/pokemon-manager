@@ -1,0 +1,55 @@
+@value background from '../common.css';
+@value background-dark-hover from '../common.css';
+@value background-dark from '../common.css';
+@value primary from '../common.css';
+
+.paginationWrapper {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 10px;
+}
+
+.pageButton {
+    padding: 5px 10px;
+    border: 2px solid primary;
+    border-radius: 5px;
+    background-color: background-dark;
+
+    transition: background-color 0.3s;
+
+    /* &:hover {
+        cursor: pointer;
+        background-color: $primary-dark;
+        border-color: $primary-dark;
+
+        span {
+            color: $primary-text;
+        }
+    } */
+}
+
+.pageButton:hover {
+    cursor: pointer;
+    background-color: background-dark-hover;
+}
+
+.pageButton span {
+    color: white;
+}
+
+.pageButton.selected {
+    background-color: primary;
+
+    /* &:hover {
+        background-color: $primary-dark;
+    } */
+}
+
+.pageButton.selected span {
+    color: white;
+}
+
+.pageButton.hidden {
+    visibility: hidden;
+    opacity: 0;
+}

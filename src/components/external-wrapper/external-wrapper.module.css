@@ -1,9 +1,15 @@
+@value background from '../common.css';
+@value background-dark from '../common.css';
+@value background-light from '../common.css';
+@value primary from '../common.css';
+
 .root {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100%;
     width: 100%;
+    background-color: background;
 }
 
 .paper {
@@ -13,7 +19,7 @@
     flex-direction: column;
     width: 400px;
     padding: 40px;
-    background: rgba(0,0,0,.5);
+    background: background-dark;
     box-sizing: border-box;
     box-shadow: 0 15px 25px rgba(0,0,0,.6);
     border-radius: 10px;
@@ -21,7 +27,7 @@
 
 .paper h2 {
     padding: 0 0 30px;
-    color: #ffffff;
+    color: white;
 }
 
 .form {
@@ -32,12 +38,12 @@
 }
 
 .form label {
-    color: #ffffff;
+    color: white;
 }
 
 .form input {
     width: 100%;
-    background:#F6F7F9;
+    background-color: white;
     border: none;
     border-radius: 4px;
     height: 40px;
@@ -45,13 +51,18 @@
     padding: 0px 10px;
     color: rgba(0,0,0,.6);
     outline: none;
+    transition: background-color 0.3s;
+}
+
+.form input:hover {
+    background-color: background-light;
 }
 
 .form button {
     display: inline-block;
     padding: 10px 20px;
-    color: #03e9f4;
-    border: 1px solid #03e9f4;
+    color: primary;
+    border: 1px solid primary;
     font-size: 16px;
     text-decoration: none;
     text-transform: uppercase;
@@ -63,17 +74,17 @@
 }
 
 .form button:hover {
-    background: #03e9f4;
-    color: #ffffff;
+    background: primary;
+    color: white;
     cursor: pointer;
 }
 
 .form a {
-    color: #03e9f4;
+    color: primary;
     text-align: center;
     transition: color .5s;
 }
 
 .form a:hover {
-    color: #ffffff;
+    color: white;
 }

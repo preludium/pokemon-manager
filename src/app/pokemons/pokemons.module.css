@@ -1,0 +1,93 @@
+@value background from '#/components/common.css';
+@value background-light from '#/components/common.css';
+
+.root {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.list {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(100px, 1fr));
+    height: 100%;
+    width: 100%;
+    gap: 30px;
+    padding: 30px 0;
+}
+
+.toolbar {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.sort {
+    height: 100%;
+}
+
+.sub-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    transition: background-color 0.3s;
+}
+
+.sub-toolbar button {
+    height: 100%;
+    padding: 0 10px;
+    outline: none;
+    border: none;
+    background-color: white;
+    color: background;
+    transition: background-color 0.3s;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.sub-toolbar button:hover {
+    cursor: pointer;
+    background-color: background-light;
+}
+
+.sub-toolbar select {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+
+    background-image:
+        linear-gradient(45deg, transparent 50%, background 50%),
+        linear-gradient(135deg, background 50%, transparent 50%);
+    background-position:
+        calc(100% - 20px) calc(0.75em),
+        calc(100% - 15px) calc(0.75em),
+        100% 0;
+    background-size:
+        5px 5px,
+        5px 5px,
+        2.5em 2.5em;
+    background-repeat: no-repeat;
+
+    padding: 0 8px;
+    height: 100%;
+    width: 100px;
+    outline: none;
+    border: none;
+    transition: background-color 0.3s;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.sub-toolbar select[data-type='size'] {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.sub-toolbar select:hover {
+    cursor: pointer;
+    background-color: background-light;
+}

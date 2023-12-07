@@ -1,0 +1,30 @@
+@value background-dark from '#/components/common.css';
+@value background-dark-hover from '#/components/common.css';
+
+.tile {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    padding: 10px;
+    gap: 10px;
+
+    color: white;
+    transition: background-color 0.3s;
+    background-color: background-dark;
+    border-radius: 10px;
+}
+
+.tile:hover {
+    cursor: pointer;
+    background-color: background-dark-hover;
+}
+
+.tile img {
+    width: max-content;
+}
+
+.tile h3 {
+    text-align: center;
+}
