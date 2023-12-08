@@ -2,9 +2,12 @@ import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 import { NextResponse } from 'next/server';
 import { ZodError, z } from 'zod';
 
-export const numberZodPreprocessor = (message?: string) => z.preprocess(
+export const numberZodPreprocessor = (typeMessage?: string, requiredMessage?: string) => z.preprocess(
     Number,
-    z.number({ invalid_type_error: message ?? 'Parameter id must be a number' }),
+    z.number({
+        invalid_type_error: typeMessage ?? 'Parameter id must be a number',
+        required_error: requiredMessage ?? 'Parameter id is required'
+    }),
 );
 
 export const emptyStringTransform = (e: unknown) => e === "" ? undefined : e;

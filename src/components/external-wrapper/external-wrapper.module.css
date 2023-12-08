@@ -58,27 +58,6 @@
     background-color: background-light;
 }
 
-.form button {
-    display: inline-block;
-    padding: 10px 20px;
-    color: primary;
-    border: 1px solid primary;
-    font-size: 16px;
-    text-decoration: none;
-    text-transform: uppercase;
-    overflow: hidden;
-    transition: background-color .5s;
-    margin-top: 40px;
-    letter-spacing: 4px;
-    background: transparent;
-}
-
-.form button:hover {
-    background: primary;
-    color: white;
-    cursor: pointer;
-}
-
 .form a {
     color: primary;
     text-align: center;

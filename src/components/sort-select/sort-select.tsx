@@ -27,8 +27,7 @@ export default function SortSelect() {
             title='sort by property'
             data-type='sort'
             className={styles.select}
-            //@ts-ignore
-            onClick={(event) => handleClick(event.target.value)}
+            onChange={(event) => handleClick(event.target.value)}
             defaultValue={defaultValue}
         >
             <option value={'none'}>None</option>

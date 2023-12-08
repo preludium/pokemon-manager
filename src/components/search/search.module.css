@@ -4,6 +4,7 @@
 .search-bar {
     display: flex;
     align-items: center;
+    height: 30px;
     padding: 0 5px;
     background-color: white;
     border-radius: 5px;

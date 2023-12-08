@@ -5,6 +5,7 @@ import { ChangeEvent, useState } from "react";
 
 import styles from '#/components/external-wrapper/external-wrapper.module.css';
 import Link from 'next/link';
+import PrimaryButton from '#/components/buttons/primary';
 
 export const RegisterForm = () => {
     const [loading, setLoading] = useState(false);
@@ -73,12 +74,12 @@ export const RegisterForm = () => {
                     onChange={handleChange}
                 />
             </div>
-            <button
+            <PrimaryButton
                 type="submit"
                 disabled={loading}
             >
                 {loading ? "loading..." : "Register"}
-            </button>
+            </PrimaryButton>
             <Link href='/login'>
                 Already have an account?
             </Link>

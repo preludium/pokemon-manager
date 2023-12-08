@@ -1,6 +1,9 @@
 import { Pokemon } from '@prisma/client';
 
 import styles from './pokemon-tile.module.css';
+import Link from 'next/link';
+import { capitalizeFirstLetter } from '#/app/utils';
+import Image from 'next/image';
 
 interface Props {
     pokemon: Pokemon;
@@ -8,18 +11,22 @@ interface Props {
 
 export default function PokemonTile({ pokemon }: Props) {
     return (
-        <div
+        <article
             className={styles.tile}
             title={pokemon.name}
         >
-            <img
-                key={pokemon.id}
-                src={pokemon.image}
-                alt={pokemon.name}
-            />
-            <h3>
-                {pokemon.name}
-            </h3>
-        </div>
+            <Link href={`/pokemons/${pokemon.id}`}>
+                <Image
+                    width={100}
+                    height={100}
+                    key={pokemon.id}
+                    src={pokemon.image}
+                    alt={pokemon.name}
+                />
+                <h3>
+                    {capitalizeFirstLetter(pokemon.name)}
+                </h3>
+            </Link>
+        </article>
     );
 }

@@ -1,47 +1,35 @@
-import Pagination from '#/components/pagination';
-import PokemonTile from '#/components/pokemon-tile';
 import Search from '#/components/search';
 import SizeSelect from '#/components/size-select';
 import SortDirection from '#/components/sort-direction';
 import SortSelect from '#/components/sort-select';
-
+import Loader from '#/components/loader';
 import { PageProps } from '#/types';
+import { Suspense } from 'react';
 
-import { PokemonsPage } from '../api/pokemons/route';
 import styles from './pokemons.module.css';
-
-function fetchPokemonsPage(searchParams: PageProps['searchParams']) {
-    const queryParams = Object.entries(searchParams)
-        .map(([param, value]) => `${param}=${value}`);
-    return fetch(`http://localhost:3000/api/pokemons?${queryParams.join('&')}`)
-        .then(response => response.json());
-}
+import PokemonList from './pokemon-list';
+import PrimaryButton from '#/components/buttons/primary/primary';
+import LinkButton from '#/components/buttons/link/link';
 
 export default async function Pokemons({ searchParams }: PageProps) {
-    const pokemons: PokemonsPage = await fetchPokemonsPage(searchParams);
-
-    const pokemonList = pokemons.data
-        .map(pokemon => <PokemonTile key={pokemon.id} pokemon={pokemon} />);
-
     return (
         <div className={styles.root}>
             <section className={styles.toolbar}>
-                <Search />
+                <LinkButton href='/pokemons/new'>
+                    Create
+                </LinkButton>
                 <div className={styles['sub-toolbar']}>
                     <SizeSelect />
-                    <div className={styles.sort}>
+                    <div>
                         <SortDirection />
                         <SortSelect />
                     </div>
+                    <Search />
                 </div>
             </section>
-            <div className={styles.list}>
-                {
-                    // TODO: suspense + loader
-                }
-                {pokemonList}
-            </div>
-            <Pagination totalPages={pokemons.totalPages} />
+            <Suspense fallback={<Loader />}>
+                <PokemonList searchParams={searchParams} />
+            </Suspense>
         </div>
     );
 }

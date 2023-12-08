@@ -4,6 +4,7 @@ import z from 'zod';
 import { handleErrorResponse, numberZodPreprocessor } from '#/app/api/common';
 import { pokemonCreateSchema } from '../route';
 import { NextApiRequest } from 'next';
+import { revalidatePath } from 'next/cache';
 
 const paramsSchema = z.object({
     id: numberZodPreprocessor(),
@@ -23,11 +24,18 @@ export async function GET(
     request: NextApiRequest,
     { params }: Options
 ) {
+    console.log(`=> GET /api/pokemons/${params.id}`);
     try {
         const id = paramsSchema.parse(params).id;
         const pokemon = await prisma.pokemon.findUnique({ where: { id } });
+        if (!pokemon) {
+            console.warn(`<= GET /api/pokemons/${params.id} 404`);
+            return NextResponse.json({ message: 'Pokemon not found' }, { status: 404 });
+        }
+        console.log(`<= GET /api/pokemons/${params.id}`);
         return NextResponse.json(pokemon);
     } catch (error) {
+        console.error(`<= GET /api/pokemons/${params.id}`, error);
         return handleErrorResponse(error);
     }
 }
@@ -37,8 +45,10 @@ export async function PUT(
     { params }: Options
 ) {
     try {
+        console.log(`=> PUT /api/pokemons/${params.id}`);
         const id = paramsSchema.parse(params).id;
-        const data: PokemonUpdateRequest = request.body;
+        // @ts-ignore
+        const data: PokemonUpdateRequest = await request.json();
 
         if (id !== data.id) {
             return NextResponse.json(
@@ -62,8 +72,12 @@ export async function PUT(
             where: { id },
             data: { ...pokemon, ...parsedRequest }
         });
+        revalidatePath(`/pokemons`);
+        revalidatePath(`/pokemons/${params.id}`);
+        console.log(`<= PUT /api/pokemons/${params.id}`);
         return NextResponse.json(newPokemon);
     } catch (error) {
+        console.error(`<= PUT /api/pokemons/${params.id}`, error);
         return handleErrorResponse(error);
     }
 }
@@ -73,10 +87,14 @@ export async function DELETE(
     { params }: Options
 ) {
     try {
+        console.log(`=> DELETE /api/pokemons/${params.id}`);
         const id = paramsSchema.parse(params).id;
         const pokemon = await prisma.pokemon.delete({ where: { id } });
+        revalidatePath('/pokemons');
+        console.log(`<= DELETE /api/pokemons/${params.id}`);
         return NextResponse.json(pokemon);
     } catch (error) {
+        console.error(`<= DELETE /api/pokemons/${params.id}`, error);
         return handleErrorResponse(error);
     }
 }

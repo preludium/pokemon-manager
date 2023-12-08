@@ -2,9 +2,9 @@ export interface Props {
     children?: React.ReactNode;
 }
 
-export interface PageProps {
-    params: { slug: string }
-    searchParams: { [key: string]: string | string[] | undefined }
+export interface PageProps<T extends Record<string, string> | undefined = undefined> {
+    params: T;
+    searchParams: { [key: string]: string | string[] | undefined };
 }
 
 export enum Param {

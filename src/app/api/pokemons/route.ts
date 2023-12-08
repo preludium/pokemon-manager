@@ -5,6 +5,7 @@ import z from 'zod';
 import { handleErrorResponse, numberZodPreprocessor } from '#/app/api/common';
 import { NextApiRequest } from 'next';
 import { Param } from '#/types';
+import { revalidatePath } from 'next/cache';
 
 const pageQuerySchema = z.object({
     [Param.PAGE]: numberZodPreprocessor('Page must be a number').optional().nullable(),
@@ -37,8 +38,8 @@ const pageQuerySchema = z.object({
 
 export const pokemonCreateSchema = z.object({
     name: z.string({ required_error: 'name property is missing' }),
-    weight: z.number({ required_error: 'weight property is missing' }),
-    height: z.number({ required_error: 'height property is missing' }),
+    weight: numberZodPreprocessor('weight must be a number', 'weight property is missing'),
+    height: numberZodPreprocessor('height must be a number', 'height property is missing'),
     image: z.string({ required_error: 'image property is missing' }),
 });
 
@@ -65,6 +66,7 @@ export interface PokemonsPage extends z.infer<typeof pageQuerySchema> {
 export async function GET(
     request: NextRequest,
 ) {
+    console.log(`=> GET /api/pokemons?${request.nextUrl.search}`);
     try {
         const searchParams = extractQuery(request.nextUrl.searchParams);
         const skip = searchParams.page && searchParams.page > 1
@@ -76,7 +78,8 @@ export async function GET(
         const isNumberFilter = !Number.isNaN(Number(searchParams.query));
         const filters = [{
             name: {
-                contains: searchParams.query ?? ''
+                contains: searchParams.query ?? '',
+                mode: 'insensitive'
             }
         }];
 
@@ -106,12 +109,15 @@ export async function GET(
                 },
                 take,
                 skip,
+                // @ts-ignore
                 where,
             }),
             prisma.pokemon.count({
+                // @ts-ignore
                 where,
             }),
         ]);
+        console.log(`<= GET /api/pokemons?${request.nextUrl.search}`);
         return NextResponse.json({
             page: searchParams.page ?? 1,
             totalPages: Math.ceil(count / take),
@@ -121,6 +127,7 @@ export async function GET(
             data: pokemons,
         });
     } catch (error) {
+        console.error(`<= GET /api/pokemons?${request.nextUrl.search}`, error);
         return handleErrorResponse(error);
     }
 }
@@ -128,7 +135,9 @@ export async function GET(
 export async function POST(
     request: NextApiRequest,
 ) {
-    const data: Omit<Pokemon, 'id'> = request.body;
+    console.log('=> POST /api/pokemons');
+    //@ts-ignore
+    const data: Omit<Pokemon, 'id'> = await request.json();
     try {
         const parsedPokemon = pokemonCreateSchema.parse(data);
         const dbPokemon = await prisma.pokemon.findFirst({ where: { name: parsedPokemon.name } });
@@ -139,8 +148,11 @@ export async function POST(
             );
         }
         const pokemon = await prisma.pokemon.create({ data: parsedPokemon });
+        revalidatePath(`/pokemons`);
+        console.log('<= POST /api/pokemons');
         return NextResponse.json(pokemon);
     } catch (error) {
+        console.error('<= POST /api/pokemons', error);
         return handleErrorResponse(error);
     }
 }

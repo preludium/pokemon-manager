@@ -1,0 +1,66 @@
+@value background-dark from '#/components/common.css';
+@value error from '#/components/common.css';
+@value primary from '#/components/common.css';
+
+.root {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    color: white;
+}
+
+.root h1 {
+    font-size: 3rem;
+    text-align: center;
+}
+
+.info {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 40px;
+}
+
+.img {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: clamp(300px, 70vw, 400px);
+    height: clamp(300px, 70vw, 400px);
+    border-radius: 10px;
+    background-color: background-dark;
+}
+
+.details {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: clamp(300px, 70vw, 400px);
+}
+
+.toolbar {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    gap: 50px;
+}
+
+.loader-wrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.readonly-details {
+    display: grid;
+    justify-items: center;
+    grid-template-columns: repeat(2, 100px);
+    padding: 15px 10px;
+    gap: 20px;
+
+    border-radius: 10px;
+    font-size: 1.25rem;
+
+    background-color: background-dark;
+}

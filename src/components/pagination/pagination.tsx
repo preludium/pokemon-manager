@@ -29,8 +29,8 @@ export default function Pagination({ totalPages }: Props) {
         router.replace(`${pathname}?${params.toString()}`);
     };
 
-    return (
-        <div className={styles.paginationWrapper}>
+    const content = (
+        <>
             <button
                 className={`${styles.pageButton} ${pages[0] === getCurrentPage(search) ? styles.hidden : ''}`}
                 onClick={() => handleClick(getCurrentPage(search) - 1)}
@@ -63,6 +63,12 @@ export default function Pagination({ totalPages }: Props) {
                     {'>'}
                 </span>
             </button>
+        </>
+    );
+
+    return (
+        <div className={styles.paginationWrapper}>
+            {totalPages === 0 ? <></> : content}
         </div>
     );
 };

@@ -14,7 +14,7 @@ function getPokemon(url) {
             name: pokemon.name,
             height: pokemon.height,
             weight: pokemon.weight,
-            image: pokemon.sprites.front_default,
+            image: pokemon.sprites.other.home?.front_default ?? pokemon.sprites.front_default,
             types: pokemon.types,
             stats: pokemon.stats,
         }));

@@ -2,26 +2,25 @@
 
 import { Param } from '#/types';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import type { MouseEvent } from 'react';
+import type { ChangeEvent } from 'react';
 
 export default function SizeSelect() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const pathname = usePathname();
 
-    const handleClick = (event: MouseEvent<HTMLSelectElement>) => {
+    const handleClick = (event: ChangeEvent<HTMLSelectElement>) => {
         const params = new URLSearchParams(searchParams);
-        // @ts-ignore
         params.set(Param.SIZE, event.target.value);
         router.replace(`${pathname}?${params.toString()}`);
     };
 
-    const defaultValue = Number(searchParams.size) ?? 10;
+    const defaultValue = searchParams.get(Param.SIZE) ?? 10;
 
     return (
         <select
             data-type='size'
-            onClick={handleClick}
+            onChange={handleClick}
             defaultValue={defaultValue}
         >
             <option value={10}>10</option>

@@ -6,6 +6,7 @@ import { ChangeEvent, useState } from "react";
 
 import styles from '#/components/external-wrapper/external-wrapper.module.css';
 import Link from 'next/link';
+import PrimaryButton from '#/components/buttons/primary';
 
 export const LoginForm = () => {
     const router = useRouter();
@@ -78,12 +79,12 @@ export const LoginForm = () => {
                     onChange={handleChange}
                 />
             </div>
-            <button
+            <PrimaryButton
                 type="submit"
                 disabled={loading}
             >
                 {loading ? "loading..." : "Login"}
-            </button>
+            </PrimaryButton>
             <Link href='/register'>
                 No account yet?
             </Link>

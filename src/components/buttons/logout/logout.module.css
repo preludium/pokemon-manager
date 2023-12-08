@@ -1,8 +1,10 @@
 .logout-button {
+    display: flex;
+    align-items: center;
     width: 40px;
     border: none;
     background-color: transparent;
-    color: #ffffff;
+    color: white;
 }
 
 .logout-button:hover {
