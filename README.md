@@ -1,3 +1,11 @@
+# Pokemon Manager
+
+## Preview
+
+![Home screenshot](https://github.com/preludium/pokemon-manager/blob/master/assets/home.png)
+
+See more [here](https://github.com/preludium/pokemon-manager/blob/master/assets)
+
 ## Getting Started
 
 Install dependencies:
