@@ -7,6 +7,7 @@ import { ChangeEvent, useState } from "react";
 import styles from '#/components/external-wrapper/external-wrapper.module.css';
 import Link from 'next/link';
 import PrimaryButton from '#/components/buttons/primary';
+import { toast } from 'react-toastify';
 
 export const LoginForm = () => {
     const router = useRouter();
@@ -15,7 +16,6 @@ export const LoginForm = () => {
         email: "",
         password: "",
     });
-    const [error, setError] = useState("");
 
     const searchParams = useSearchParams();
     const callbackUrl = searchParams.get("callbackUrl") || "/pokemons";
@@ -39,11 +39,15 @@ export const LoginForm = () => {
             if (!res?.error) {
                 router.push(callbackUrl);
             } else {
-                setError("invalid email or password");
+                toast.error('invalid email or password');
             }
-        } catch (error: any) {
+        } catch (error) {
             setLoading(false);
-            setError(error);
+            if (error instanceof Error) {
+                toast.error(error.message);
+            } else {
+                toast.error('An error occurred');
+            }
         }
     };
 
@@ -54,9 +58,6 @@ export const LoginForm = () => {
 
     return (
         <form onSubmit={onSubmit} className={styles.form}>
-            {error && (
-                <p>{error}</p>
-            )}
             <div>
                 <label htmlFor='email'>Email</label>
                 <input

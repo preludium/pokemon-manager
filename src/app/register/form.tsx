@@ -6,6 +6,7 @@ import { ChangeEvent, useState } from "react";
 import styles from '#/components/external-wrapper/external-wrapper.module.css';
 import Link from 'next/link';
 import PrimaryButton from '#/components/buttons/primary';
+import { toast } from 'react-toastify';
 
 export const RegisterForm = () => {
     const [loading, setLoading] = useState(false);
@@ -13,7 +14,6 @@ export const RegisterForm = () => {
         email: "",
         password: "",
     });
-    const [error, setError] = useState("");
 
     const onSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -31,14 +31,18 @@ export const RegisterForm = () => {
 
             setLoading(false);
             if (!res.ok) {
-                setError((await res.json()).message);
+                toast.error((await res.json()).message);
                 return;
             }
 
             signIn(undefined, { callbackUrl: "/" });
-        } catch (error: any) {
+        } catch (error) {
             setLoading(false);
-            setError(error);
+            if (error instanceof Error) {
+                toast.error(error.message);
+            } else {
+                toast.error('An error occurred');
+            }
         }
     };
 
@@ -49,9 +53,6 @@ export const RegisterForm = () => {
 
     return (
         <form onSubmit={onSubmit} className={styles.form}>
-            {error && (
-                <p>{error}</p>
-            )}
             <div>
                 <label htmlFor='email'>Email</label>
                 <input

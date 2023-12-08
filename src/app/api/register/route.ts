@@ -10,6 +10,19 @@ export async function POST(req: Request) {
         };
         const password_hash = await hash(password, 12);
 
+        const dbUser = await prisma.user.findUnique({
+            where: {
+                email: email.toLowerCase(),
+            }
+        });
+
+        if (dbUser) {
+            return NextResponse.json(
+                { message: `User ${email.toLowerCase()} already exists` },
+                { status: 400 }
+            );
+        }
+
         const user = await prisma.user.create({
             data: {
                 email: email.toLowerCase(),
@@ -24,11 +37,8 @@ export async function POST(req: Request) {
             },
         });
     } catch (error: any) {
-        return new NextResponse(
-            JSON.stringify({
-                status: "error",
-                message: error.message,
-            }),
+        return NextResponse.json(
+            { message: error.message },
             { status: 500 }
         );
     }
