@@ -2,7 +2,9 @@ import { PageProps } from '#/types';
 import { Pokemon } from '@prisma/client';
 
 export function fetchPokemon(pokemonId: Pokemon['id']): Promise<Pokemon> {
-    return fetch(`http://localhost:3000/api/pokemons/${pokemonId}`)
+    return fetch(`http://localhost:3000/api/pokemons/${pokemonId}`, {
+        cache: 'no-store'
+    })
         .then(async (response) => {
             const json = await response.json();
             if (!response.ok) {
